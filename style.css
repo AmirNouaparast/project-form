@@ -1,0 +1,102 @@
+@font-face {
+    font-family: 'sahel';
+    src: url('font/Sahel.woff') format('woff'),
+    url('font/Sahel.woff2') format('woff')
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'sahel';
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(55deg, #0067ce, #00baba, #7500c9);
+}
+.container{
+    box-shadow: 0 0 10px 5px #00baba;
+    border-radius: 20px;
+    margin: 10px;
+    max-width: 340px;
+    width: 100%;
+}
+.form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px 0;
+    padding: 0 8px 8px 8px;
+}
+h2{
+    font-size: 28px;
+    color: rgba(0, 0, 0, 0.9);
+}
+.form-validate{
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
+    width: 100%;
+}
+.form-control{
+padding: 5px 10px
+}
+.form-control input{
+    background-color: rgb(167, 211, 255);
+    width: 100%;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    padding: 8px;
+    margin-top: 3px;
+    font-size: 15px;
+}
+.form-control input::placeholder {
+color: rgba(0, 0, 0, 0.7)
+}
+.form-control small{
+    color: darkred;
+    display: none;
+}
+.form-validate button{
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background: linear-gradient(to right, #003870d2, #001b1bb3, #1b0061cd);
+    box-shadow: 0 0 10px rgb(255, 255, 255);
+    color: white;
+    font-size: 20px;
+}
+
+
+@media (max-width: 480px) {
+    *{
+        font-size: 13px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .form-validate button {
+        font-size: 16px;
+        padding: 8px;
+    }
+}
+
+
+.form-control.error input{
+    border-bottom: 2px solid darkred;
+    border-left: 6px solid darkred;
+}
+.form-control.error small{
+    display: block;
+}
+.form-control.success input{
+    border-left: 6px solid green;
+}
