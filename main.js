@@ -1,71 +1,65 @@
+// ======= Select DOM elements =======
 const form = document.getElementById("form");
 const username = document.getElementById("username");
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const password2 = document.getElementById("password2");
 
+// ======= Form Submit Event =======
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-
   validateInputs();
 });
 
-const setError = (element, message) => {
+// ======= UI State Handler =======
+const setStatus = (element, message = "", type) => {
   const inputControl = element.parentElement;
   const errorDisplay = inputControl.querySelector(".error");
 
   errorDisplay.innerText = message;
-  inputControl.classList.add("error");
-  inputControl.classList.remove("success");
+
+  inputControl.classList.remove("error", "success");
+  inputControl.classList.add(type);
 };
 
-const setSuccess = (element) => {
-  const inputControl = element.parentElement;
-  const errorDisplay = inputControl.querySelector(".error");
-
-  errorDisplay.innerText = "";
-  inputControl.classList.add("success");
-  inputControl.classList.remove("error");
-};
-
+// ======= Email Validation =======
 const isValidEmail = (email) => {
-  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase());
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email.toLowerCase());
 };
 
+// ======= Generic Required Validator =======
+const checkRequired = (element, message) => {
+  if (element.value.trim() === "") {
+    setStatus(element, message, "error");
+    return false;
+  }
+  setStatus(element, "", "success");
+  return true;
+};
+
+// ======= Validate Inputs =======
 const validateInputs = () => {
-  const usernameValue = username.value.trim();
-  const emailValue = email.value.trim();
-  const passwordValue = password.value.trim();
-  const password2Value = password2.value.trim();
+  const usernameValid = checkRequired(username, "نام کاربری اجباری");
 
-  if (usernameValue === "") {
-    setError(username, "نام کاربری اجباری");
-  } else {
-    setSuccess(username);
-  }
+  const emailValid =
+    checkRequired(email, "ایمیل اجباری") &&
+    (isValidEmail(email.value.trim())
+      ? (setStatus(email, "", "success"), true)
+      : (setStatus(email, "ایمیل معتبر نیست", "error"), false));
 
-  if (emailValue === "") {
-    setError(email, "ایمیل اجباری");
-  } else if (!isValidEmail(emailValue)){
-    setError(email, "ایمیل معتبر نیست");
-  } else {
-    setSuccess(email);
-  }
+  const passwordValid =
+    checkRequired(password, "گذرواژه اجباری") &&
+    (password.value.trim().length >= 8
+      ? (setStatus(password, "", "success"), true)
+      : (setStatus(password, "حداقل 8 کاراکتر", "error"), false));
 
-  if (passwordValue === "") {
-    setError(password, "گذرواژه اجباری");
-  } else if (passwordValue.length < 8) {
-    setError(password, "حداقل 8 کاراکتر");
-  } else {
-    setSuccess(password);
-  }
+  const passwordMatch =
+    checkRequired(password2, "تکرار گذرواژه اجباری") &&
+    (password2.value === password.value
+      ? (setStatus(password2, "", "success"), true)
+      : (setStatus(password2, "گذرواژه مطابقت ندارد", "error"), false));
 
-  if (password2Value === "") {
-    setError(password2, "گذرواژه را دوباره وارد کنید");
-  } else if (password2Value !== passwordValue) {
-    setError(password2, "گذرواژه مطابقت ندارد");
-  } else {
-    setSuccess(password2);
-  }
+  return usernameValid && emailValid && passwordValid && passwordMatch;
 };

@@ -41,6 +41,24 @@ The form includes the following fields:
 
 ---
 
+## 🧠 JavaScript Highlights
+
+- Client-side Form Validation (validate inputs before submit)
+
+- UI State Management (setStatus: error / success handling)
+
+- Generic Required Validator (checkRequired for empty fields)
+
+- Email format validation (isValidEmail with regex)
+
+- Boolean return values & Short-Circuit Evaluation for combined validation
+
+- Separation of Concerns (validation logic separate from UI updates)
+
+- Event handling (form submit, preventDefault)
+
+---
+
 ## 📂 File Structure
 
 ```bash
